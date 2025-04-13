@@ -49,4 +49,12 @@ class HurdleProvider extends ChangeNotifier {
     }
     notifyListeners();
   }
+
+  bool get isAValidWord =>
+      totalWords.contains(rowInputs.join('').toLowerCase());
+
+  void submitWord() {
+    print(rowInputs.join(''));
+    print(isAValidWord);
+  }
 }

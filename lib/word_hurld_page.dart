@@ -69,7 +69,17 @@ class _WordHurldPageState extends State<WordHurldPage> {
                           child: const Text('Delete'),
                         ),
                         ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            if (!provider.isAValidWord) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text('Not a word in my dictionary'),
+                                ),
+                              );
+                              return;
+                            }
+                            provider.submitWord();
+                          },
                           child: const Text('Submit'),
                         ),
                       ],
