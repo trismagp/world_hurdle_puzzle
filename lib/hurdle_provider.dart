@@ -13,6 +13,7 @@ class HurdleProvider extends ChangeNotifier {
   String targetWord = '';
   int hurdleBoardIndex = 0;
   final lettersPerRow = 5;
+  bool wins = false;
 
   init() {
     totalWords = words.all.where((element) => element.length == 5).toList();
@@ -53,8 +54,40 @@ class HurdleProvider extends ChangeNotifier {
   bool get isAValidWord =>
       totalWords.contains(rowInputs.join('').toLowerCase());
 
+  bool get shouldCheckForAnswer => rowInputs.length == lettersPerRow;
+
   void submitWord() {
     print(rowInputs.join(''));
     print(isAValidWord);
+  }
+
+  void checkAnswer() {
+    if (rowInputs.join('') == targetWord) {
+      wins = true;
+    } else {
+      rowInputs = [];
+      for (
+        var i = hurdleBoardIndex - lettersPerRow;
+        i < hurdleBoardIndex;
+        i++
+      ) {
+        if (targetWord.contains(hurdleBoard[i].letter)) {
+          hurdleBoard[i].existsInTarget = true;
+        } else {
+          hurdleBoard[i].doesNotExistInTarget = true;
+        }
+      }
+      notifyListeners();
+    }
+  }
+
+  void playAgain() {
+    rowInputs = [];
+    hurdleBoardIndex = 0;
+    hurdleBoard = [];
+    genearateRandomWord();
+    wins = false;
+    generateBoard();
+    notifyListeners();
   }
 }
