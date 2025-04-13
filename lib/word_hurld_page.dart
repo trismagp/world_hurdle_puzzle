@@ -55,6 +55,27 @@ class _WordHurldPageState extends State<WordHurldPage> {
                     },
                   ),
             ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Consumer<HurdleProvider>(
+                builder:
+                    (context, provider, child) => Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        ElevatedButton(
+                          onPressed: () {
+                            provider.deleteLetter();
+                          },
+                          child: const Text('Delete'),
+                        ),
+                        ElevatedButton(
+                          onPressed: () {},
+                          child: const Text('Submit'),
+                        ),
+                      ],
+                    ),
+              ),
+            ),
           ],
         ),
       ),
