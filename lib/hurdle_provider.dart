@@ -43,11 +43,12 @@ class HurdleProvider extends ChangeNotifier {
     if (rowInputs.isNotEmpty) {
       rowInputs.removeLast();
       print(rowInputs);
+      if (hurdleBoardIndex > 0) {
+        hurdleBoard[hurdleBoardIndex - 1] = Wordle(letter: '');
+        hurdleBoardIndex--;
+      }
     }
-    if (hurdleBoardIndex > 0) {
-      hurdleBoard[hurdleBoardIndex - 1] = Wordle(letter: '');
-      hurdleBoardIndex--;
-    }
+
     notifyListeners();
   }
 
@@ -65,17 +66,11 @@ class HurdleProvider extends ChangeNotifier {
     if (rowInputs.join('') == targetWord) {
       wins = true;
     } else {
-      rowInputs = [];
-      for (
-        var i = hurdleBoardIndex - lettersPerRow;
-        i < hurdleBoardIndex;
-        i++
-      ) {
-        if (targetWord.contains(hurdleBoard[i].letter)) {
-          hurdleBoard[i].existsInTarget = true;
-        } else {
-          hurdleBoard[i].doesNotExistInTarget = true;
-        }
+      _markLetterOnBoard();
+      if (hurdleBoardIndex < 30) {
+        rowInputs = [];
+      } else {
+        print('you lost');
       }
       notifyListeners();
     }
@@ -85,9 +80,21 @@ class HurdleProvider extends ChangeNotifier {
     rowInputs = [];
     hurdleBoardIndex = 0;
     hurdleBoard = [];
+    excludedLetters = [];
     genearateRandomWord();
     wins = false;
     generateBoard();
     notifyListeners();
+  }
+
+  void _markLetterOnBoard() {
+    for (var i = hurdleBoardIndex - lettersPerRow; i < hurdleBoardIndex; i++) {
+      if (targetWord.contains(hurdleBoard[i].letter)) {
+        hurdleBoard[i].existsInTarget = true;
+      } else {
+        hurdleBoard[i].doesNotExistInTarget = true;
+        excludedLetters.add(hurdleBoard[i].letter);
+      }
+    }
   }
 }
