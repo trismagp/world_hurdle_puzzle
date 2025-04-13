@@ -46,7 +46,15 @@ class _WordHurldPageState extends State<WordHurldPage> {
                 ),
               ),
             ),
-            KeyboardView(),
+            Consumer<HurdleProvider>(
+              builder:
+                  (context, provider, child) => KeyboardView(
+                    excludedLetters: provider.excludedLetters,
+                    onPressed: (value) {
+                      print(value);
+                    },
+                  ),
+            ),
           ],
         ),
       ),
