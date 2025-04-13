@@ -30,8 +30,9 @@ class HurdleProvider extends ChangeNotifier {
 
   inputLetter(String letter) {
     if (rowInputs.length < lettersPerRow) {
+      hurdleBoard[rowInputs.length] = Wordle(letter: letter);
       rowInputs.add(letter);
-      print(rowInputs);
+      notifyListeners();
     }
   }
 }
