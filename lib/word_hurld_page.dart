@@ -51,7 +51,7 @@ class _WordHurldPageState extends State<WordHurldPage> {
                   (context, provider, child) => KeyboardView(
                     excludedLetters: provider.excludedLetters,
                     onPressed: (value) {
-                      print(value);
+                      provider.inputLetter(value);
                     },
                   ),
             ),
